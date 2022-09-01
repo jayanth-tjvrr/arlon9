@@ -1,0 +1,27 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: eks-1-profile-dynamic-1
+  namespace: argocd
+  finalizers:
+  # This solves issue #17
+  - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  project: default
+  source:
+    repoURL: https://github.com/jayanth-tjvrr/arlon9
+    path: profiles/dynamic-1/mgmt
+    targetRevision: HEAD
+    helm:
+      parameters:
+      - name: clusterName
+        value: eks-1
+      - name: profileAppName
+        value: eks-1-profile-dynamic-1
