@@ -1,0 +1,21 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: arlon-capi-eks-jayanth-xenial-static
+  namespace: argocd
+  finalizers:
+  # This solves issue #17
+  - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: arlon-capi-eks-jayanth
+    namespace: default
+  project: default
+  source:
+    repoURL: https://github.com/jayanth-tjvrr/arlon9
+    path: clusters/arlon-capi-eks-jayanth/workload/xenial-static
+    targetRevision: HEAD
